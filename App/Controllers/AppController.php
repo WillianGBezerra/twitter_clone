@@ -28,6 +28,7 @@
 
 		public function tweet() {
 
+			session_start();
 				$tweet = Container::getModel('tweet');
 
 				$tweet->__set('tweet', $_POST['tweet']);
@@ -46,6 +47,33 @@
 				header('Location: /?login=erro');
 			}
 			
+		}
+
+		public function quemSeguir() {
+
+			$this->validaAutenticacao();
+		
+			$pesquisarPor = isset($_GET['pesquisarPor']) ? $_GET['pesquisarPor'] : '';
+
+			// echo '<br/><br/><br/><br/><br/><br/><br/>';
+			// echo 'Pesquisando por: '.$pesquisarPor;
+			
+			$usuarios = array();
+
+			if($pesquisarPor != '') {
+
+				$usuario = Container::getModel('Usuario');
+				$usuario->__set('nome', $pesquisarPor);
+				$usuarios = $usuario->getAll();
+
+				// echo '<pre>';
+				// print_r($usuarios);
+				// echo '</pre>';
+			}	
+
+			$this->view->usuarios = $usuarios;
+
+			$this->render('quemSeguir');
 		}
     }
 ?>
