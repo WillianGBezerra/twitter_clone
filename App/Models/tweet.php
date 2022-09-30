@@ -29,6 +29,15 @@
             return $this;
         }
 
+        public function deletar() {
+
+            $query = "delete from tweets where id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':id', $this->__get('id'));
+            $stmt->execute();
+            return true;
+        } 
+
         public function getAll() {
 
             $query = " 
